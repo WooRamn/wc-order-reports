@@ -42,10 +42,10 @@ if(!class_exists('WC_Order_Ajax_Helper')):
 		public function wc_order_dashboard_data(){
 			$wc_order_nonce = (isset($_POST['wc_order_nonce']))?$_POST['wc_order_nonce']:"";
 			if($this->admin_safe_ajax_call($wc_order_nonce, 'wc_order_dashboard_data_nonce')){	
-				$start_date = isset($_POST['start_date'])?$_POST['start_date']:date( 'Y-m-d', strtotime( '-1 month' ));
-			  $start_date = date('Y-m-d',strtotime($start_date));
-			  $end_date = isset($_POST['end_date'])?$_POST['end_date']:date( 'Y-m-d');
-			  $end_date = date('Y-m-d',strtotime($end_date));
+				
+			  $start_date = ( isset($_POST['start_date']) && false !== strtotime( $_POST['start_date'] ) ) ? date('Y-m-d', strtotime( $_POST['start_date'] ) ) : date( 'Y-m-d', strtotime( '-1 month' ));
+			 
+			  $end_date = ( isset($_POST['end_date']) && false !== strtotime( $_POST['end_date'] ) ) ? date('Y-m-d', strtotime( $_POST['end_date'] ) ) : date( 'Y-m-d', strtotime('now') );
 			  if($start_date && $end_date){
 			    $result = $this->WC_Order_DB_Helper->get_dashboard_data($start_date, $end_date);
 			    $summury = isset($result['summury'])?$result['summury']:"";
@@ -191,10 +191,10 @@ if(!class_exists('WC_Order_Ajax_Helper')):
 		public function wc_order_show_data(){
 			$wc_order_nonce = (isset($_POST['wc_order_nonce']))?$_POST['wc_order_nonce']:"";
 			if($this->admin_safe_ajax_call($wc_order_nonce, 'wc_order_show_data_nonce')){				
-				$start_date = isset($_POST['start_date'])?$_POST['start_date']:date( 'Y-m-d', strtotime( '-1 month' ));
-			  $start_date = date('Y-m-d',strtotime($start_date));
-			  $end_date = isset($_POST['end_date'])?$_POST['end_date']:date( 'Y-m-d');
-			  $end_date = date('Y-m-d',strtotime($end_date));
+				
+			  $start_date = ( isset($_POST['start_date']) && false !== strtotime( $_POST['start_date'] ) ) ? date('Y-m-d', strtotime( $_POST['start_date'] ) ) : date( 'Y-m-d', strtotime( '-1 month' ));
+			  
+			  $end_date = ( isset($_POST['end_date']) && false !== strtotime( $_POST['end_date'] ) ) ? date('Y-m-d', strtotime( $_POST['end_date'] ) ) : date( 'Y-m-d', strtotime('now') );
 			  $html ="";
 			  $data = array();
 			  if($start_date && $end_date){
@@ -271,13 +271,10 @@ if(!class_exists('WC_Order_Ajax_Helper')):
 			
 			if($this->admin_safe_ajax_call($wc_order_nonce, 'wc_order_download_data_nonce')){
 				global $wpdb;
-			  $start_date = isset($_POST['start_date'])?$_POST['start_date']:date( 'Y-m-d', strtotime( '-1 month' ));
-			  $start_date_t = $start_date;
-			  $start_date = date('Y-m-d',strtotime($start_date));
+			   
+			  $start_date = ( isset($_POST['start_date']) && false !== strtotime( $_POST['start_date'] ) ) ? date('Y-m-d', strtotime( $_POST['start_date'] ) ) : date( 'Y-m-d', strtotime( '-1 month' ));
+			  $end_date = ( isset($_POST['end_date']) && false !== strtotime( $_POST['end_date'] ) ) ? date('Y-m-d', strtotime( $_POST['end_date'] ) ) : date( 'Y-m-d', strtotime('now') );
 
-			  $end_date = isset($_POST['end_date'])?$_POST['end_date']:date( 'Y-m-d');
-			  $end_date_t = $end_date;
-			  $end_date = date('Y-m-d',strtotime($end_date));  
 			  $html ="";
 			  $file_name = "";
 			  $data = array();
@@ -301,7 +298,7 @@ if(!class_exists('WC_Order_Ajax_Helper')):
 			      $phpExcelSheet = $phpExcel->setActiveSheetIndex(0);
 			      $phpExcelSheet->getDefaultStyle()->getFont()->setName('calibri')->setSize(11)->setBold(true);
 			      $phpExcelSheet->mergeCells('A'.$e_row.':H'.$e_row);
-			      $phpExcelSheet->setCellValue('A'.$e_row,'Order Report: '.$start_date_t.' to '.$end_date_t);
+			      $phpExcelSheet->setCellValue('A'.$e_row,'Order Report: '.$start_date.' to '.$end_date);
 			      $phpExcelSheet->mergeCells('I'.$e_row.':K'.$e_row);
 			      $phpExcelSheet->setCellValue('I'.$e_row,'Report Dt.: '.date('M-d-Y'));
 			      $e_row++;

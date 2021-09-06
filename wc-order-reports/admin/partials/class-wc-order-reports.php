@@ -49,8 +49,7 @@ if(!class_exists('WC_Order_Dashboard')):
 					<div class="wor-section">
 						<div class="wor-section-header">
 							<h2 class="wor-section-header__title wor-section-header__header-item icon icon-home">Woocommerce order reports overview</h2>
-							<hr role="presentation">
-						
+							<hr role="presentation">						
 							<div class="worwoocommerce order-date-select">
 								<label class="wor-field-title">Orders date range:</label>
 								<form class="wor-date-range">
